@@ -1,0 +1,11 @@
+
+// Likes post : 
+.icons-container {
+    
+    #like-btn, #dislike-btn, #update-btn, #delete-btn {
+        font-size: 1.4rem;
+        &:hover {
+            cursor: pointer;
+        }
+    }
+}
