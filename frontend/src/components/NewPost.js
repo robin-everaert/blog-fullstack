@@ -1,8 +1,10 @@
 import React, { useState } from 'react';
 import axios from 'axios';
+import { useSelector } from 'react-redux';
 
-const NewPost = ({ userId }) => {
+const NewPost = () => {
 
+    const userId = useSelector((state => state.user.userId));
     const [message, setMessage] = useState("");
     const handleForm = e => {
         e.preventDefault();

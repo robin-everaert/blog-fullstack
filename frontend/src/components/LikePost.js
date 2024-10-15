@@ -1,9 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
+import { useSelector } from 'react-redux';
 
-export const LikePost = ({ post, userId }) => {
+export const LikePost = ({ post }) => {
     const [userLiked, setUserLiked] = useState(false);
-
+    const userId = useSelector((state => state.user.userId));
     useEffect(() => {
         if(post.likers) {
             if(post.likers.includes(userId)) {

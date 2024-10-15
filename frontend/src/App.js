@@ -1,11 +1,18 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import NewPost from './components/NewPost';
 import Thread from './components/Thread';
+import { useDispatch } from 'react-redux';
+import { getUser } from './feature/user.slice';
 
 const App = () => {
     const [userId, setUserId] = useState('');
+    const dispatch = useDispatch();
 
-  return (
+    useEffect(() => {
+        dispatch(getUser(userId))
+    }, [userId])
+
+   return (
     <div id="app-container" className='container'>
         <div className="row">
             <div className="col-12">
@@ -20,13 +27,13 @@ const App = () => {
 
         <div className="row">
             <div className="col-12">
-                <NewPost userId={ userId } />
+                <NewPost />
             </div>
         </div>
 
         <div className="row">
             <div className="col-12">
-                <Thread userId={ userId } />
+                <Thread />
             </div>
         </div>
     </div>
