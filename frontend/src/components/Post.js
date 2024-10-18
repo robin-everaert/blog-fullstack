@@ -2,7 +2,8 @@ import React, { useEffect, useState } from 'react'
 import { LikePost } from './LikePost';
 import axios from 'axios';
 import { DeletePost } from './DeletePost';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
+import { editPost, getPosts } from '../feature/posts.slice';
 
 export const Post = ({ post }) => {
 
@@ -10,6 +11,7 @@ export const Post = ({ post }) => {
     const [isAuthor, setIsAuthor] = useState(false);
     const [isEdit, setIsEdit] = useState(false);
     const [newMessage, setNewMessage] = useState("");
+    const dispatch = useDispatch();
 
     useEffect(() => {
         if(post.author === userId) {
@@ -24,6 +26,11 @@ export const Post = ({ post }) => {
             axios.put(`http://localhost:8000/post/${ post._id }`, { 
                 message: newMessage,
             })
+            .then(() => {
+                dispatch(editPost([newMessage, post._id]))
+                dispatch(getPosts())
+            })
+            
         }
     }
     const dateFormater = (date) => {

@@ -1,10 +1,13 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
+import { dislike, getPosts, like } from '../feature/posts.slice';
 
 export const LikePost = ({ post }) => {
     const [userLiked, setUserLiked] = useState(false);
     const userId = useSelector((state => state.user.userId));
+    const dispatch = useDispatch();
+
     useEffect(() => {
         if(post.likers) {
             if(post.likers.includes(userId)) {
@@ -16,12 +19,20 @@ export const LikePost = ({ post }) => {
     }, [userId, userLiked]);
 
     const likePost = () => {
-        axios.patch(`http://localhost:8000/post/like-post/${ post._id }`, { userId });
-        setUserLiked(true);
+        axios.patch(`http://localhost:8000/post/like-post/${ post._id }`, { userId })
+        .then(() => {
+            dispatch(like([userId, post._id]))
+            dispatch(getPosts())
+            setUserLiked(true)
+        })
     };
     const dislikePost = () => {
-        axios.patch(`http://localhost:8000/post/dislike-post/${ post._id }`, { userId });
-        setUserLiked(false);
+        axios.patch(`http://localhost:8000/post/dislike-post/${ post._id }`, { userId })
+        .then(() => {
+            dispatch(dislike([userId, post._id]))
+            dispatch(getPosts())
+            setUserLiked(false)
+        })
     }
     return (
         <div className='icons-container'>

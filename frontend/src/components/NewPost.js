@@ -1,17 +1,25 @@
 import React, { useState } from 'react';
 import axios from 'axios';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
+import { createPost, getPosts } from '../feature/posts.slice';
 
 const NewPost = () => {
 
     const userId = useSelector((state => state.user.userId));
     const [message, setMessage] = useState("");
+    const dispatch = useDispatch();
+
+    const data = {
+        message: message,
+        author: userId,
+    }
+
     const handleForm = e => {
         e.preventDefault();
-
-        axios.post('http://localhost:8000/post', {
-            message: message,
-            author: userId,
+        axios.post('http://localhost:8000/post', data)
+        .then(() => {
+            dispatch(createPost(data))
+            dispatch(getPosts())
         })
         .then( () => {
             setMessage("");
