@@ -2,9 +2,11 @@ import React, { useEffect, useState } from 'react'
 import { LikePost } from './LikePost';
 import axios from 'axios';
 import { DeletePost } from './DeletePost';
+import { useSelector } from 'react-redux';
 
-export const Post = ({ post, userId }) => {
+export const Post = ({ post }) => {
 
+    const userId = useSelector((state => state.user.userId));
     const [isAuthor, setIsAuthor] = useState(false);
     const [isEdit, setIsEdit] = useState(false);
     const [newMessage, setNewMessage] = useState("");
